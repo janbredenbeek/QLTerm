@@ -1,0 +1,80 @@
+* QLTerm Terminal Emulator
+* Licenced under GPL v3 Licence (2019)
+* See https://github.com/janbredenbeek/QLTerm for latest version from the author
+* This should be assembled and linked using the GST/Quanta Macro Assembler and Linker
+* (see http://www.dilwyn.me.uk/asm/index.html)
+
+* QLTerm include file
+
+* Constants
+
+XON      EQU      $11
+XOFF     EQU      $13
+CR       EQU      $0D
+LF       EQU      $0A
+ESC      EQU      $1B
+F1       EQU      $E8
+F2       EQU      $EC
+F3       EQU      $F0
+F4       EQU      $F4
+F5       EQU      $F8
+SOH      EQU      $01
+EOT      EQU      $04
+ACK      EQU      $06
+NAK      EQU      $15
+CAN      EQU      $18
+C        EQU      $43
+
+RXQ_SIZE EQU      8192     Size of receive buffer
+
+version  SETSTR   2.35
+
+* Variables
+
+         OFFSET   0
+
+MAINWIN  DS.L     1        Main terminal window
+CMDWIN   DS.L     1        Command window
+GUARDWIN DS.L     1        Guard window (encloses 2 above windows)
+SERNAME  DS.L     1
+TSERIN   DS.L     1        ID of input channel
+TSEROUT  DS.L     1        ID of output channel (may be same as TSERIN)
+PIPE_IN  DS.L     1
+PIPE_OUT DS.L     1
+SCRJBID  DS.L     1        job ID of terminal process
+SERJBID  DS.L     1        job ID of serial input process
+RXQ_BASE DS.L     1        base of RX queue
+RXQ_TOP  DS.L     1        top of RX queue
+RXQ_HEAD DS.L     1        Head of RX queue (first char)
+RXQ_TAIL DS.L     1        Tail of RX queue (last char)
+LOGCHID  DS.L     1        ID of log channel
+FILELEN  DS.L     1
+ESCRTN   DS.L     1
+CURSAV   DS.W     2
+PB_PNT   DS.W     1
+BUFLEN   DS.W     1        BUFFER LENGTH (IN K)
+MODEMTYP DS.B     1        MODEM TYPE: 0 QMODEM, 1 MODAPTOR, 2 SER3
+BAUD     DS.B     1        BAUD RATE: 0: 75, 1: 300 .. 6: 9600, 7: 1200M75, 8: 1200P75, 9: 1200S75
+PARITY   DS.B     1        PARITY: -1 NONE, 0 ODD, 1 EVEN, 2 MARK, 3 SPACE
+ECHOMOD  DS.B     1        ECHO MODE: -1 FD, 0 HD, 1 LOCAL
+SCRMOD   DS.B     1        SCREEN MODE: -1 ASCII, 0 VT52, 1 ANSI
+COLRMOD  DS.B     1        COLOUR: 0 OFF, 1 ON
+CONVLF   DS.B     1        CONVERT QDOS LF'S: 0 NO, 1 YES
+L_COOKED DS.B     1        LOG MODE: 0 RAW, 1 COOKED
+PORT     DS.B     1
+XOFFMOD  DS.B     1        XOFF sent
+DLMOD    DS.B     1        Downloading?
+ESCMOD   DS.B     1        ESC received?
+PARNUM   DS.B     1        Number of parameters
+TXBUSY   DS.B     1        True when busy sending
+CONECTED DS.B     1        Connected?
+REDIR    DS.B     1        In/Output redirected
+USE_PIPE DS.B     1        True when using pipes
+IN_EOF   DS.B     1        True when EOF on input
+         DS.W     0        Next areas are word aligned
+PARBUF   DS.B     80       ESC sequence parameter buffer
+TXMODBUF DS.B     132      Buffer for XMODEM
+RXQ      DS.B     RXQ_SIZE RX queue
+
+         DATA     1024+RXQ_SIZE     Allow for RX queue + 1K
+
