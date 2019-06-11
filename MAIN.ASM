@@ -537,7 +537,7 @@ K_VT52   DC.B     $C0,2,ESC,'D'     Left
 * Cursor keys conversion for ANSI
 
 K_ANSI   DC.B     $FD,3,ESC,$5B,'Z'    CBT
-         DC.B     9,3,ESC,$5B,'I'      CHT
+*         DC.B     9,3,ESC,$5B,'I'      CHT
          DC.B     $C0,3,ESC,$5B,'D'    CUB
          DC.B     $D8,3,ESC,$5B,'B'    CUD
          DC.B     $C8,3,ESC,$5B,'C'    CUF
